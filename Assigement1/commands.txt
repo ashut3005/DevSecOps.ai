@@ -1,0 +1,69 @@
+sudo apt update
+
+
+System Monitoring Commands
+1️ CPU Usage
+top
+
+
+
+2 Memory Usage
+free -h
+
+
+3️ Disk Usage
+df -h
+
+
+4️ Running Processes
+ps aux | head
+
+
+5️ View System Logs
+journalctl -n 10
+
+
+Create Monitoring Script
+
+Create file:
+
+nano monitor.sh
+
+Paste this:
+
+#!/bin/bash
+
+echo "===== SYSTEM MONITORING REPORT ====="
+echo "Date: $(date)"
+echo ""
+
+echo "---- CPU Usage ----"
+top -bn1 | grep "Cpu(s)"
+
+echo ""
+echo "---- Memory Usage ----"
+free -h
+
+echo ""
+echo "---- Disk Usage ----"
+df -h
+
+echo ""
+echo "---- Top Processes ----"
+ps -eo pid,cmd,%mem,%cpu --sort=-%cpu | head
+
+echo ""
+echo "---- Recent Logs ----"
+journalctl -n 5
+
+echo "====================================="
+
+Save file:
+CTRL + X → Press Y → Enter
+
+Make Script Executable
+chmod +x monitor.sh
+
+
+Run Script
+./monitor.sh

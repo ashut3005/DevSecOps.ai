@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Meeting Transcriber</title>
+  <style>
+    body {
+      width: 500px;
+      height: 600px;
+      font-family: Arial, sans-serif;
+      padding: 15px;
+      background-color: #f4f6f9;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    button {
+      width: 48%;
+      padding: 10px;
+      margin: 5px 1%;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #start {
+      background-color: #28a745;
+      color: white;
+    }
+
+    #stop {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    #output {
+      margin-top: 20px;
+      height: 400px;
+      overflow-y: auto;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    p {
+      font-size: 14px;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Meeting Transcriber</h2>
+
+  <div style="text-align:center;">
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+  </div>
+
+  <div id="output"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

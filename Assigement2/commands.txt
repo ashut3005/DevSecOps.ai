@@ -1,0 +1,106 @@
+STEP 1
+sudo apt update
+sudo apt install terraform
+
+Check version:
+terraform -v
+
+STEP 2 — Create AWS Account
+
+STEP 3 — Create IAM User (Important)
+
+STEP 4 — Configure AWS CLI (Important)
+
+Install AWS CLI in Ubuntu:
+sudo apt install awscli -y
+
+Configure:
+aws configure
+
+Enter:
+AWS Access Key ID:
+AWS Secret Access Key:
+Default region: ap-south-1   (or your region)
+Default output format: json
+
+Test:
+aws sts get-caller-identity
+
+
+STEP 5 — Create Terraform Project
+Create project folder:
+mkdir terraform-ec2
+cd terraform-ec2
+
+Create file:
+nano main.tf
+
+STEP 6 — Add Terraform Code
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_security_group" "allow_ssh_http" {
+  name = "allow_ssh_http"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_instance" "my_ec2" {
+  ami           = "ami-0f5ee92e2d63afc18"  # Amazon Linux (ap-south-1)
+  instance_type = "t2.micro"
+  security_groups = [aws_security_group.allow_ssh_http.name]
+
+  tags = {
+    Name = "Terraform-EC2"
+  }
+}
+
+Save file.
+
+STEP 7 — Initialize Terraform
+terraform init
+
+STEP 8 — Plan Infrastructure
+terraform plan
+
+STEP 9 — Apply (Create EC2)
+terraform apply
+
+STEP 10 — Verify in AWS Console
+AWS Console → EC2 → Instances
+Terraform-EC2
+
+Status: Running
+STEP 11 — Connect via SSH
+
+Create key pair in AWS:
+EC2 → Key Pairs → Create Key Pair → Download .pem
+
+connecting:
+chmod 400 yourkey.pem
+ssh -i yourkey.pem ec2-user@PUBLIC_IP
+If connected → EC2 working
+
+
+STEP 12 — Destroy Infrastructure (Important for Marks)
+terraform destroy
